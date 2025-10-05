@@ -151,12 +151,14 @@ body::after {
 
 <script>
 document.getElementById('startButton').addEventListener('click', () => {
-  document.getElementById('startButton').classList.add('hidden');
-  document.getElementById('main-content').classList.remove('hidden');
+  const startButton = document.getElementById('startButton');
+  const mainContent = document.getElementById('main-content');
+  startButton.classList.add('hidden');
+  mainContent.classList.remove('hidden');
 
   // Play piano cover
   const piano = document.getElementById('piano-song');
-  piano.volume = 1.0; // 100% volume
+  piano.volume = 1.0; // 100%
   piano.loop = true;  // infinite loop
   piano.play().catch(()=>console.log("Autoplay blocked"));
 
