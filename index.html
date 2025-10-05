@@ -146,7 +146,7 @@ body::after {
   <div class="glow mt-8">&lt;SYSTEM&gt; CELEBRATE;</div>
 </div>
 
-<!-- New Piano Cover -->
+<!-- Piano Cover -->
 <audio id="piano-song" src="https://cdn.pixabay.com/download/audio/2021/09/13/audio_b0a5e93e5b.mp3?filename=happy-birthday-to-you-piano-version-13976.mp3" preload="auto" loop></audio>
 
 <script>
@@ -156,7 +156,8 @@ document.getElementById('startButton').addEventListener('click', () => {
 
   // Play piano cover
   const piano = document.getElementById('piano-song');
-  piano.volume = 1.0;
+  piano.volume = 1.0; // 100% volume
+  piano.loop = true;  // infinite loop
   piano.play().catch(()=>console.log("Autoplay blocked"));
 
   // Typing animation
@@ -218,3 +219,4 @@ document.getElementById('startButton').addEventListener('click', () => {
 </script>
 </body>
 </html>
+
