@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Happy Birthday, Farhan!</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/tone@14.7.77/build/Tone.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
 
@@ -50,9 +51,7 @@ body {
   animation: blink-caret 0.75s step-end infinite;
 }
 
-@keyframes blink-caret {
-  50% { border-color: #00ff00; }
-}
+@keyframes blink-caret { 50% { border-color: #00ff00; } }
 
 .glow {
   font-size: 3rem;
@@ -148,11 +147,24 @@ body::after {
 
 <!-- Piano Cover -->
 <audio id="piano-song" 
-       src="https://cdn.pixabay.com/download/audio/2021/09/13/audio_b0a5e93e5b.mp3?filename=happy-birthday-to-you-piano-version-13976.mp3" 
+       src="https://zeeshan40u.github.io/123/happy-birthday-to-you-piano-version-13976.mp3" 
        preload="auto" loop></audio>
 
 <script>
-document.getElementById('startButton').addEventListener('click', () => {
+// Tone.js Sampler (re-added)
+const sampler = new Tone.Sampler({
+  urls: { A4:"A4.mp3", B4:"B4.mp3", C5:"C5.mp3", D5:"D5.mp3", E5:"E5.mp3", F5:"F5.mp3", G5:"G5.mp3" },
+  release: 1,
+  baseUrl: "https://tonejs.github.io/audio/salamander/",
+}).toDestination();
+
+const happyBirthdayNotes = [
+  { note:"G4", duration:"4n" }, { note:"G4", duration:"8n" },
+  { note:"A4", duration:"4n" }, { note:"G4", duration:"4n" },
+  { note:"C5", duration:"4n" }, { note:"B4", duration:"2n" }
+];
+
+document.getElementById('startButton').addEventListener('click', async () => {
   const startButton = document.getElementById('startButton');
   const mainContent = document.getElementById('main-content');
   startButton.classList.add('hidden');
@@ -160,9 +172,16 @@ document.getElementById('startButton').addEventListener('click', () => {
 
   // Play piano cover
   const piano = document.getElementById('piano-song');
-  piano.volume = 1.0; // 100%
-  piano.loop = true;  // infinite loop
+  piano.volume = 1;
+  piano.loop = true;
   piano.play().catch(()=>console.log("Autoplay blocked"));
+
+  // Tone.js melody
+  await Tone.start();
+  const melody = new Tone.Sequence((time, note) => {
+    sampler.triggerAttackRelease(note.note, note.duration, time);
+  }, happyBirthdayNotes, "4n").start(0);
+  Tone.Transport.start();
 
   // Typing animation
   const line1 = document.getElementById('line1');
@@ -215,15 +234,15 @@ document.getElementById('startButton').addEventListener('click', () => {
     particles.forEach(p=>{p.update(); p.draw();});
     requestAnimationFrame(animate);
   }
-
-  resizeCanvas(); 
+   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
   animate();
 });
 
+// Delay particle/typing logs
 const logLines = document.querySelectorAll('.log-line');
 logLines.forEach((line, i) => { line.style.animationDelay = `${1 + i}s`; });
 </script>
+
 </body>
 </html>
-
