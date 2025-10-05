@@ -147,7 +147,9 @@ body::after {
 </div>
 
 <!-- Piano Cover -->
-<audio id="piano-song" src="https://cdn.pixabay.com/download/audio/2021/09/13/audio_b0a5e93e5b.mp3?filename=happy-birthday-to-you-piano-version-13976.mp3" preload="auto" loop></audio>
+<audio id="piano-song" 
+       src="https://cdn.pixabay.com/download/audio/2021/09/13/audio_b0a5e93e5b.mp3?filename=happy-birthday-to-you-piano-version-13976.mp3" 
+       preload="auto" loop></audio>
 
 <script>
 document.getElementById('startButton').addEventListener('click', () => {
@@ -218,6 +220,9 @@ document.getElementById('startButton').addEventListener('click', () => {
   window.addEventListener('resize', resizeCanvas);
   animate();
 });
+
+const logLines = document.querySelectorAll('.log-line');
+logLines.forEach((line, i) => { line.style.animationDelay = `${1 + i}s`; });
 </script>
 </body>
 </html>
