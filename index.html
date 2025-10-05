@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Happy Birthday, Farhan!</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/tone@14.7.77/build/Tone.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
+
 body {
   background-color: #0a0a0a;
   color: #00ff00;
@@ -20,6 +20,7 @@ body {
   min-height: 100vh;
   text-shadow: 0 0 5px #00ff00;
 }
+
 .container {
   text-align: center;
   padding: 2rem;
@@ -28,20 +29,101 @@ body {
   position: relative;
   z-index: 10;
 }
-.typing-container { display:flex; flex-direction: column; align-items:center; justify-content:center; }
-.typing-text { white-space: nowrap; overflow: hidden; display: inline-block; width:0; border-right:3px solid transparent; }
-.blinking-cursor { border-color:#00ff00; animation: blink-caret 0.75s step-end infinite; }
-@keyframes blink-caret { 50% { border-color:#00ff00; } }
-.glow { font-size:3rem; color:#00ffff; text-shadow:0 0 10px #00ffff,0 0 20px #00ffff,0 0 40px #00ffff; animation:glowPulse 3s ease-in-out infinite; }
-@keyframes glowPulse { 0%,100%{text-shadow:0 0 10px #00ffff,0 0 20px #00ffff,0 0 40px #00ffff; transform:scale(1);} 50% { text-shadow:0 0 20px #00ffff,0 0 40px #00ffff,0 0 80px #00ffff; transform:scale(1.05);} }
+
+.typing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.typing-text {
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  width: 0;
+  border-right: 3px solid transparent;
+}
+
+.blinking-cursor {
+  border-color: #00ff00;
+  animation: blink-caret 0.75s step-end infinite;
+}
+
+@keyframes blink-caret {
+  50% { border-color: #00ff00; }
+}
+
+.glow {
+  font-size: 3rem;
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { text-shadow:0 0 10px #00ffff,0 0 20px #00ffff,0 0 40px #00ffff; transform: scale(1); }
+  50% { text-shadow:0 0 20px #00ffff,0 0 40px #00ffff,0 0 80px #00ffff; transform: scale(1.05); }
+}
+
 @keyframes typing { from { width:0; } to { width:100%; } }
+
 .log-line { opacity:0; animation:fadeIn 1s forwards; }
 @keyframes fadeIn { to { opacity:1; } }
-#particle-canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:5; background-color:transparent; }
-body::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background: repeating-linear-gradient(to bottom, transparent 0px, transparent 2px, rgba(0,255,0,0.1) 2px, rgba(0,255,0,0.1) 3px); pointer-events:none; z-index:20; opacity:0.5; }
-.start-button { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background-color:#00ff00; color:#0a0a0a; font-size:1.5rem; padding:1rem 2rem; border-radius:9999px; font-weight:bold; box-shadow:0 0 10px #00ff00,0 0 20px #00ff00; cursor:pointer; transition:all 0.3s ease-in-out; border:2px solid transparent; z-index:30; }
-.start-button:hover { background-color:transparent; color:#00ff00; box-shadow:0 0 15px #00ff00,0 0 30px #00ff00; border-color:#00ff00; }
-.hidden { display:none; }
+
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  background-color: transparent;
+}
+
+body::after {
+  content: '';
+  position: absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0,255,0,0.1) 2px,
+    rgba(0,255,0,0.1) 3px
+  );
+  pointer-events: none;
+  z-index: 20;
+  opacity: 0.5;
+}
+
+.start-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background-color: #00ff00;
+  color: #0a0a0a;
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border: 2px solid transparent;
+  z-index: 30;
+}
+
+.start-button:hover {
+  background-color: transparent;
+  color: #00ff00;
+  box-shadow: 0 0 15px #00ff00, 0 0 30px #00ff00;
+  border-color: #00ff00;
+}
+
+.hidden { display: none; }
 </style>
 </head>
 <body>
@@ -55,68 +137,84 @@ body::after { content:''; position:absolute; top:0; left:0; width:100%; height:1
     <p class="log-line">>>> Acknowledging user: Farhan Khan</p>
     <p class="log-line">>>> Executing encrypted message...</p>
   </div>
+
   <div class="typing-container">
     <h1 id="line1" class="text-2xl md:text-4xl font-bold typing-text">Happy Birthday</h1>
     <h1 id="line2" class="text-2xl md:text-4xl font-bold typing-text mt-2">Farhan Khan</h1>
   </div>
+
   <div class="glow mt-8">&lt;SYSTEM&gt; CELEBRATE;</div>
 </div>
 
-<audio id="piano-song" src="https://cdn.pixabay.com/download/audio/2021/09/13/audio_b0a5e93e5b.mp3?filename=happy-birthday-to-you-piano-version-9702.mp3" preload="auto" loop></audio>
+<!-- New Piano Cover -->
+<audio id="piano-song" src="https://cdn.pixabay.com/download/audio/2021/09/13/audio_b0a5e93e5b.mp3?filename=happy-birthday-to-you-piano-version-13976.mp3" preload="auto" loop></audio>
 
 <script>
-const sampler = new Tone.Sampler({
-  urls: {
-    A1: "A1.mp3", C2: "C2.mp3", "D#2": "Ds2.mp3", "F#2": "Fs2.mp3",
-    A2: "A2.mp3", C3: "C3.mp3", "D#3": "Ds3.mp3", "F#3": "Fs3.mp3",
-    A3: "A3.mp3", C4: "C4.mp3", "D#4": "Ds4.mp3", "F#4": "Fs4.mp3",
-    A4: "A4.mp3", C5: "C5.mp3"
-  },
-  release:1,
-  baseUrl:"https://tonejs.github.io/audio/salamander/",
-  onload:()=>console.log("Sampler loaded.")
-}).toDestination();
+document.getElementById('startButton').addEventListener('click', () => {
+  document.getElementById('startButton').classList.add('hidden');
+  document.getElementById('main-content').classList.remove('hidden');
 
-const happyBirthdayNotes = [
-  "G4","G4","A4","G4","C5","B4",
-  "G4","G4","A4","G4","D5","C5",
-  "G4","G4","G5","E5","C5","B4","A4",
-  "F5","F5","E5","C5","D5","C5"
-];
-
-document.getElementById('startButton').addEventListener('click', async ()=>{
-  const btn=document.getElementById('startButton');
-  const main=document.getElementById('main-content');
-  btn.classList.add('hidden'); main.classList.remove('hidden');
-
-  await Tone.start(); // start audio context
-
-  const piano=document.getElementById('piano-song');
+  // Play piano cover
+  const piano = document.getElementById('piano-song');
   piano.volume = 1.0;
   piano.play().catch(()=>console.log("Autoplay blocked"));
 
-  // Play Tone.js notes in sync with piano cover (adjusted)
-  happyBirthdayNotes.forEach((note,i)=>{
-    Tone.Transport.scheduleOnce(()=>{sampler.triggerAttackRelease(note,"8n");}, `+${i*0.5}`);
-  });
-  Tone.Transport.start();
+  // Typing animation
+  const line1 = document.getElementById('line1');
+  const line2 = document.getElementById('line2');
+  line1.style.animation = "typing 2.5s steps(14,end) forwards"; 
+  line1.classList.add("blinking-cursor");
 
-  // Typing animations
-  const line1=document.getElementById('line1');
-  const line2=document.getElementById('line2');
-  line1.style.animation="typing 2.5s steps(14,end) forwards"; line1.classList.add("blinking-cursor");
-  setTimeout(()=>{ line1.classList.remove("blinking-cursor"); line2.style.animation="typing 2.5s steps(11,end) forwards"; line2.classList.add("blinking-cursor"); },2500);
-  setTimeout(()=>{ line2.classList.remove("blinking-cursor"); },5000);
+  setTimeout(() => {
+    line1.classList.remove("blinking-cursor");
+    line2.style.animation = "typing 2.5s steps(11,end) forwards"; 
+    line2.classList.add("blinking-cursor");
+  }, 2500);
+
+  setTimeout(() => { line2.classList.remove("blinking-cursor"); }, 5000);
 
   // Particles
-  const canvas=document.getElementById('particle-canvas'); const ctx=canvas.getContext('2d'); const particles=[]; const particleCount=180;
-  function resizeCanvas(){canvas.width=window.innerWidth; canvas.height=window.innerHeight;}
-  class Particle{constructor(){this.reset();} reset(){this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height; this.vx=(Math.random()-0.5)*1.5; this.vy=(Math.random()-0.5)*1.5; this.size=Math.random()*2+1; this.alpha=Math.random();} update(){this.x+=this.vx; this.y+=this.vy; this.alpha-=0.004; if(this.alpha<=0) this.reset();} draw(){ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fillStyle=`rgba(0,255,255,${this.alpha})`; ctx.fill();}}
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  const particles = [];
+  const particleCount = 180;
+
+  function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.vx = (Math.random()-0.5)*1.5;
+      this.vy = (Math.random()-0.5)*1.5;
+      this.size = Math.random()*2+1;
+      this.alpha = Math.random();
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.alpha -= 0.004;
+      if(this.alpha <= 0) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+      ctx.fillStyle = `rgba(0,255,255,${this.alpha})`;
+      ctx.fill();
+    }
+  }
+
   for(let i=0;i<particleCount;i++) particles.push(new Particle());
-  function animate(){ctx.clearRect(0,0,canvas.width,canvas.height); for(let p of particles){p.update(); p.draw();} requestAnimationFrame(animate);}
-  resizeCanvas(); window.addEventListener('resize',resizeCanvas); animate();
+  function animate() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{p.update(); p.draw();});
+    requestAnimationFrame(animate);
+  }
+
+  resizeCanvas(); 
+  window.addEventListener('resize', resizeCanvas);
+  animate();
 });
 </script>
 </body>
 </html>
-
