@@ -104,7 +104,7 @@ body::after {
   opacity: 0.5;
 }
 .start-button {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -127,7 +127,7 @@ body::after {
   border-color: #00ff00;
 }
 .hidden {
-  display: none;
+  display: none !important;
 }
 .firework {
   position: fixed;
@@ -180,22 +180,31 @@ body::after {
     <h1 id="line1" class="text-2xl md:text-4xl font-bold typing-text">Happy Birthday</h1>
     <h1 id="line2" class="text-2xl md:text-4xl font-bold typing-text mt-2">Farhan Khan</h1>
   </div>
-  <div class="glow mt-8"><SYSTEM> CELEBRATE;</div>
+  <div class="glow mt-8">&lt;SYSTEM&gt; CELEBRATE;</div>
 </div>
 
 <audio id="piano-song" src="https://zeeshan40u.github.io/123/happy-birthday-to-you-piano-version-13976.mp3" preload="auto"></audio>
-<audio id="firework-sound" src="https://cdn.freesound.org/previews/397/397354_7193358-lq.mp3" preload="auto"></audio>
-<audio id="confetti-sound" src="https://cdn.freesound.org/previews/156/156859_2538033-lq.mp3" preload="auto"></audio>
+<audio id="click-sound" src="https://zeeshan40u.github.io/123/shieldcargame.mp3" preload="auto"></audio>
 
 <script>
-document.getElementById('startButton').addEventListener('click', async () => {
-  const startButton = document.getElementById('startButton');
-  const mainContent = document.getElementById('main-content');
+const startButton = document.getElementById('startButton');
+const mainContent = document.getElementById('main-content');
+
+startButton.addEventListener('click', function() {
+  console.log('Button clicked!');
+  
+  // Play button click sound
+  const clickSound = document.getElementById('click-sound');
+  clickSound.volume = 0.7;
+  clickSound.play().catch(e => console.log('Sound error:', e));
+
+  // Hide button and show content
   startButton.classList.add('hidden');
   mainContent.classList.remove('hidden');
 
+  // Start piano music
   const piano = document.getElementById('piano-song');
-  piano.play();
+  piano.play().catch(e => console.log('Piano error:', e));
 
   // Typing animation
   const line1 = document.getElementById('line1');
@@ -265,11 +274,6 @@ document.getElementById('startButton').addEventListener('click', async () => {
 
   // Surprise blasts!
   function createFirework(x, y) {
-    // Play firework sound
-    const fireworkSound = document.getElementById('firework-sound').cloneNode();
-    fireworkSound.volume = 0.3;
-    fireworkSound.play();
-
     const colors = ['#00ff00', '#00ffff', '#ff00ff', '#ffff00', '#ff0000'];
     const particleCount = 30;
     
@@ -295,11 +299,6 @@ document.getElementById('startButton').addEventListener('click', async () => {
   }
 
   function createConfetti() {
-    // Play confetti sound
-    const confettiSound = document.getElementById('confetti-sound').cloneNode();
-    confettiSound.volume = 0.4;
-    confettiSound.play();
-
     const colors = ['#00ff00', '#00ffff', '#ff00ff', '#ffff00', '#ff0000'];
     for (let i = 0; i < 50; i++) {
       const confetti = document.createElement('div');
