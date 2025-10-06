@@ -129,6 +129,41 @@ body::after {
 .hidden {
   display: none;
 }
+.firework {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  z-index: 25;
+  pointer-events: none;
+}
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  z-index: 25;
+  pointer-events: none;
+}
+@keyframes explode {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0);
+    opacity: 0;
+  }
+}
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) rotateZ(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotateZ(720deg);
+    opacity: 0;
+  }
+}
 </style>
 </head>
 <body>
@@ -149,6 +184,8 @@ body::after {
 </div>
 
 <audio id="piano-song" src="https://zeeshan40u.github.io/123/happy-birthday-to-you-piano-version-13976.mp3" preload="auto"></audio>
+<audio id="firework-sound" src="https://cdn.freesound.org/previews/397/397354_7193358-lq.mp3" preload="auto"></audio>
+<audio id="confetti-sound" src="https://cdn.freesound.org/previews/156/156859_2538033-lq.mp3" preload="auto"></audio>
 
 <script>
 document.getElementById('startButton').addEventListener('click', async () => {
@@ -225,6 +262,91 @@ document.getElementById('startButton').addEventListener('click', async () => {
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
   animate();
+
+  // Surprise blasts!
+  function createFirework(x, y) {
+    // Play firework sound
+    const fireworkSound = document.getElementById('firework-sound').cloneNode();
+    fireworkSound.volume = 0.3;
+    fireworkSound.play();
+
+    const colors = ['#00ff00', '#00ffff', '#ff00ff', '#ffff00', '#ff0000'];
+    const particleCount = 30;
+    
+    for (let i = 0; i < particleCount; i++) {
+      const firework = document.createElement('div');
+      firework.className = 'firework';
+      firework.style.left = x + 'px';
+      firework.style.top = y + 'px';
+      firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      
+      const angle = (Math.PI * 2 * i) / particleCount;
+      const velocity = 100 + Math.random() * 100;
+      const tx = Math.cos(angle) * velocity;
+      const ty = Math.sin(angle) * velocity;
+      
+      firework.style.setProperty('--tx', tx + 'px');
+      firework.style.setProperty('--ty', ty + 'px');
+      firework.style.animation = 'explode 1s ease-out forwards';
+      
+      document.body.appendChild(firework);
+      setTimeout(() => firework.remove(), 1000);
+    }
+  }
+
+  function createConfetti() {
+    // Play confetti sound
+    const confettiSound = document.getElementById('confetti-sound').cloneNode();
+    confettiSound.volume = 0.4;
+    confettiSound.play();
+
+    const colors = ['#00ff00', '#00ffff', '#ff00ff', '#ffff00', '#ff0000'];
+    for (let i = 0; i < 50; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * window.innerWidth + 'px';
+      confetti.style.top = '-20px';
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animation = `confettiFall ${2 + Math.random() * 2}s linear forwards`;
+      confetti.style.animationDelay = Math.random() * 0.5 + 's';
+      
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 4500);
+    }
+  }
+
+  // Trigger surprise blasts at key moments
+  setTimeout(() => {
+    createFirework(window.innerWidth * 0.2, window.innerHeight * 0.3);
+  }, 3000);
+
+  setTimeout(() => {
+    createFirework(window.innerWidth * 0.8, window.innerHeight * 0.4);
+  }, 3500);
+
+  setTimeout(() => {
+    createConfetti();
+  }, 4000);
+
+  setTimeout(() => {
+    createFirework(window.innerWidth * 0.5, window.innerHeight * 0.2);
+  }, 4500);
+
+  setTimeout(() => {
+    createFirework(window.innerWidth * 0.3, window.innerHeight * 0.6);
+    createFirework(window.innerWidth * 0.7, window.innerHeight * 0.5);
+  }, 5000);
+
+  setTimeout(() => {
+    createConfetti();
+  }, 5500);
+
+  // Random fireworks every few seconds
+  setInterval(() => {
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * window.innerHeight * 0.7;
+    createFirework(x, y);
+  }, 3000);
 });
 
 const logLines = document.querySelectorAll('.log-line');
