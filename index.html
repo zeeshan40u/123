@@ -79,7 +79,7 @@ body::after {
   pointer-events: none; z-index: 20; opacity: 0.5;
 }
 .start-button {
-  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  position: fixed; top: 60%; left: 50%; transform: translate(-50%, -50%);
   background-color: #00ff00; color: #0a0a0a;
   font-size: 1.5rem; padding: 1rem 2rem; border-radius: 9999px;
   font-weight: bold; box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
@@ -95,7 +95,8 @@ body::after {
 /* Custom Alert Box */
 #custom-alert {
   position: fixed;
-  top: 50%; left: 50%;
+  top: 40%;
+  left: 50%;
   transform: translate(-50%, -50%);
   background: #000;
   border: 2px solid #00ff00;
@@ -150,12 +151,14 @@ body::after {
 </style>
 </head>
 <body>
-<button id="startButton" class="start-button">Initiate Protocol</button>
-<div id="custom-alert" class="hidden">
-  <p>Enter the name of the birthday person:</p>
-  <input type="text" id="nameInput" placeholder="e.g. Farhan Khan">
+
+<div id="custom-alert">
+  <p>Enter Your Name:</p>
+  <input type="text" id="nameInput" placeholder="e.g. Zeeshan Khan">
   <button id="submitName">Confirm</button>
 </div>
+
+<button id="startButton" class="start-button hidden">Initiate Protocol</button>
 <canvas id="particle-canvas"></canvas>
 
 <div id="main-content" class="container hidden">
@@ -183,14 +186,14 @@ const mainContent = document.getElementById('main-content');
 const userLog = document.getElementById('userLog');
 let userName = '';
 
-startButton.addEventListener('click', () => {
-  startButton.classList.add('hidden');
-  alertBox.classList.remove('hidden');
-});
-
 submitName.addEventListener('click', () => {
   userName = nameInput.value.trim() || 'Anonymous';
   alertBox.classList.add('hidden');
+  startButton.classList.remove('hidden');
+});
+
+startButton.addEventListener('click', () => {
+  startButton.classList.add('hidden');
   mainContent.classList.remove('hidden');
   startProtocol();
 });
@@ -215,7 +218,6 @@ function startProtocol() {
   }, 2500);
   setTimeout(() => { line2.classList.remove("blinking-cursor"); }, 5000);
 
-  // Particle background
   const canvas = document.getElementById('particle-canvas');
   const ctx = canvas.getContext('2d');
   const particles = [];
