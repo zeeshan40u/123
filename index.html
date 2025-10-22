@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Happy Birthday, Farhan!</title>
+<title>Happy Birthday!</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
@@ -45,9 +45,7 @@ body {
   animation: blink-caret 0.75s step-end infinite;
 }
 @keyframes blink-caret {
-  50% {
-    border-color: #00ff00;
-  }
+  50% { border-color: #00ff00; }
 }
 .glow {
   font-size: 3rem;
@@ -56,42 +54,21 @@ body {
   animation: glowPulse 3s ease-in-out infinite;
 }
 @keyframes glowPulse {
-  0%, 100% {
-    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff;
-    transform: scale(1);
-  }
-  50% {
-    text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 80px #00ffff;
-    transform: scale(1.05);
-  }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 @keyframes typing {
   from { width: 0; }
   to { width: 100%; }
 }
-.log-line {
-  opacity: 0;
-  animation: fadeIn 1s forwards;
-}
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
+.log-line { opacity: 0; animation: fadeIn 1s forwards; }
+@keyframes fadeIn { to { opacity: 1; } }
 #particle-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 5;
-  background-color: transparent;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 5; background-color: transparent;
 }
 body::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
   background: repeating-linear-gradient(
     to bottom,
     transparent 0px,
@@ -99,86 +76,97 @@ body::after {
     rgba(0, 255, 0, 0.1) 2px,
     rgba(0, 255, 0, 0.1) 3px
   );
-  pointer-events: none;
-  z-index: 20;
-  opacity: 0.5;
+  pointer-events: none; z-index: 20; opacity: 0.5;
 }
 .start-button {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #00ff00;
-  color: #0a0a0a;
-  font-size: 1.5rem;
-  padding: 1rem 2rem;
-  border-radius: 9999px;
-  font-weight: bold;
-  box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  border: 2px solid transparent;
-  z-index: 30;
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background-color: #00ff00; color: #0a0a0a;
+  font-size: 1.5rem; padding: 1rem 2rem; border-radius: 9999px;
+  font-weight: bold; box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+  cursor: pointer; transition: all 0.3s ease-in-out;
+  border: 2px solid transparent; z-index: 30;
 }
 .start-button:hover {
+  background-color: transparent; color: #00ff00;
+  box-shadow: 0 0 15px #00ff00, 0 0 30px #00ff00; border-color: #00ff00;
+}
+.hidden { display: none !important; }
+
+/* Custom Alert Box */
+#custom-alert {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #000;
+  border: 2px solid #00ff00;
+  padding: 2rem;
+  border-radius: 10px;
+  z-index: 40;
+  text-align: center;
+  box-shadow: 0 0 15px #00ff00;
+  color: #00ff00;
+  width: 90%;
+  max-width: 400px;
+}
+#custom-alert input {
+  background: #0a0a0a;
+  border: 1px solid #00ff00;
+  color: #00ff00;
+  padding: 0.5rem;
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  margin-top: 1rem;
+  outline: none;
+}
+#custom-alert button {
+  margin-top: 1rem;
+  background-color: #00ff00;
+  color: #0a0a0a;
+  font-weight: bold;
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#custom-alert button:hover {
   background-color: transparent;
   color: #00ff00;
-  box-shadow: 0 0 15px #00ff00, 0 0 30px #00ff00;
-  border-color: #00ff00;
+  border: 1px solid #00ff00;
+  box-shadow: 0 0 10px #00ff00;
 }
-.hidden {
-  display: none !important;
-}
-.firework {
-  position: fixed;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  z-index: 25;
-  pointer-events: none;
-}
-.confetti {
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  z-index: 25;
-  pointer-events: none;
-}
+.firework, .confetti { position: fixed; border-radius: 50%; z-index: 25; pointer-events: none; }
+.firework { width: 4px; height: 4px; }
+.confetti { width: 10px; height: 10px; }
 @keyframes explode {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(var(--tx), var(--ty)) scale(0);
-    opacity: 0;
-  }
+  0% { transform: translate(0,0) scale(1); opacity:1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity:0; }
 }
 @keyframes confettiFall {
-  0% {
-    transform: translateY(0) rotateZ(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh) rotateZ(720deg);
-    opacity: 0;
-  }
+  0% { transform: translateY(0) rotateZ(0deg); opacity:1; }
+  100% { transform: translateY(100vh) rotateZ(720deg); opacity:0; }
 }
 </style>
 </head>
 <body>
 <button id="startButton" class="start-button">Initiate Protocol</button>
+<div id="custom-alert" class="hidden">
+  <p>Enter the name of the birthday person:</p>
+  <input type="text" id="nameInput" placeholder="e.g. Farhan Khan">
+  <button id="submitName">Confirm</button>
+</div>
 <canvas id="particle-canvas"></canvas>
 
 <div id="main-content" class="container hidden">
   <div id="log-console" class="text-xs text-left mb-8 space-y-1">
     <p class="log-line">>>> Initiating secure birthday protocol...</p>
-    <p class="log-line">>>> Acknowledging user: Farhan Khan</p>
+    <p id="userLog" class="log-line">>>> Acknowledging user:</p>
     <p class="log-line">>>> Executing encrypted message...</p>
   </div>
   <div class="typing-container">
     <h1 id="line1" class="text-2xl md:text-4xl font-bold typing-text">Happy Birthday</h1>
-    <h1 id="line2" class="text-2xl md:text-4xl font-bold typing-text mt-2">Farhan Khan</h1>
+    <h1 id="line2" class="text-2xl md:text-4xl font-bold typing-text mt-2"></h1>
   </div>
   <div class="glow mt-8">&lt;SYSTEM&gt; CELEBRATE;</div>
 </div>
@@ -188,170 +176,118 @@ body::after {
 
 <script>
 const startButton = document.getElementById('startButton');
+const alertBox = document.getElementById('custom-alert');
+const submitName = document.getElementById('submitName');
+const nameInput = document.getElementById('nameInput');
 const mainContent = document.getElementById('main-content');
+const userLog = document.getElementById('userLog');
+let userName = '';
 
-startButton.addEventListener('click', function() {
-  console.log('Button clicked!');
-  
-  // Play button click sound
+startButton.addEventListener('click', () => {
+  startButton.classList.add('hidden');
+  alertBox.classList.remove('hidden');
+});
+
+submitName.addEventListener('click', () => {
+  userName = nameInput.value.trim() || 'Anonymous';
+  alertBox.classList.add('hidden');
+  mainContent.classList.remove('hidden');
+  startProtocol();
+});
+
+function startProtocol() {
   const clickSound = document.getElementById('click-sound');
   clickSound.volume = 0.7;
-  clickSound.play().catch(e => console.log('Sound error:', e));
-
-  // Hide button and show content
-  startButton.classList.add('hidden');
-  mainContent.classList.remove('hidden');
-
-  // Start piano music
+  clickSound.play().catch(()=>{});
   const piano = document.getElementById('piano-song');
-  piano.play().catch(e => console.log('Piano error:', e));
+  piano.play().catch(()=>{});
+  userLog.textContent = '>>> Acknowledging user: ' + userName;
 
-  // Typing animation
   const line1 = document.getElementById('line1');
   const line2 = document.getElementById('line2');
   line1.style.animation = "typing 2.5s steps(14, end) forwards";
   line1.classList.add("blinking-cursor");
-
   setTimeout(() => {
     line1.classList.remove("blinking-cursor");
+    line2.textContent = userName;
     line2.style.animation = "typing 2.5s steps(11, end) forwards";
     line2.classList.add("blinking-cursor");
   }, 2500);
+  setTimeout(() => { line2.classList.remove("blinking-cursor"); }, 5000);
 
-  setTimeout(() => {
-    line2.classList.remove("blinking-cursor");
-  }, 5000);
-
-  // Particles
+  // Particle background
   const canvas = document.getElementById('particle-canvas');
   const ctx = canvas.getContext('2d');
   const particles = [];
   const particleCount = 180;
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
-  class Particle {
-    constructor() { this.reset(); }
-    reset() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-      this.vx = (Math.random() - 0.5) * 1.5;
-      this.vy = (Math.random() - 0.5) * 1.5;
-      this.size = Math.random() * 2 + 1;
-      this.alpha = Math.random();
+  function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+  class Particle{
+    constructor(){this.reset();}
+    reset(){
+      this.x=Math.random()*canvas.width;
+      this.y=Math.random()*canvas.height;
+      this.vx=(Math.random()-0.5)*1.5;
+      this.vy=(Math.random()-0.5)*1.5;
+      this.size=Math.random()*2+1;
+      this.alpha=Math.random();
     }
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-      this.alpha -= 0.004;
-      if (this.alpha <= 0) this.reset();
+    update(){
+      this.x+=this.vx;this.y+=this.vy;this.alpha-=0.004;
+      if(this.alpha<=0)this.reset();
     }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0,255,255,${this.alpha})`;
-      ctx.fill();
+    draw(){
+      ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,255,255,${this.alpha})`;ctx.fill();
     }
   }
-
-  for (let i = 0; i < particleCount; i++) particles.push(new Particle());
-
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let p of particles) {
-      p.update();
-      p.draw();
-    }
+  for(let i=0;i<particleCount;i++)particles.push(new Particle());
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(let p of particles){p.update();p.draw();}
     requestAnimationFrame(animate);
   }
+  resizeCanvas();window.addEventListener('resize',resizeCanvas);animate();
 
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-  animate();
-
-  // Surprise blasts!
-  function createFirework(x, y) {
-    const colors = ['#00ff00', '#00ffff', '#ff00ff', '#ffff00', '#ff0000'];
-    const particleCount = 30;
-    
-    for (let i = 0; i < particleCount; i++) {
-      const firework = document.createElement('div');
-      firework.className = 'firework';
-      firework.style.left = x + 'px';
-      firework.style.top = y + 'px';
-      firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      
-      const angle = (Math.PI * 2 * i) / particleCount;
-      const velocity = 100 + Math.random() * 100;
-      const tx = Math.cos(angle) * velocity;
-      const ty = Math.sin(angle) * velocity;
-      
-      firework.style.setProperty('--tx', tx + 'px');
-      firework.style.setProperty('--ty', ty + 'px');
-      firework.style.animation = 'explode 1s ease-out forwards';
-      
-      document.body.appendChild(firework);
-      setTimeout(() => firework.remove(), 1000);
+  function createFirework(x,y){
+    const colors=['#00ff00','#00ffff','#ff00ff','#ffff00','#ff0000'];
+    const n=30;
+    for(let i=0;i<n;i++){
+      const d=document.createElement('div');
+      d.className='firework';
+      d.style.left=x+'px';d.style.top=y+'px';
+      d.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+      const a=(Math.PI*2*i)/n;const v=100+Math.random()*100;
+      const tx=Math.cos(a)*v,ty=Math.sin(a)*v;
+      d.style.setProperty('--tx',tx+'px');
+      d.style.setProperty('--ty',ty+'px');
+      d.style.animation='explode 1s ease-out forwards';
+      document.body.appendChild(d);
+      setTimeout(()=>d.remove(),1000);
+    }
+  }
+  function createConfetti(){
+    const colors=['#00ff00','#00ffff','#ff00ff','#ffff00','#ff0000'];
+    for(let i=0;i<50;i++){
+      const c=document.createElement('div');
+      c.className='confetti';
+      c.style.left=Math.random()*window.innerWidth+'px';
+      c.style.top='-20px';
+      c.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+      c.style.animation=`confettiFall ${2+Math.random()*2}s linear forwards`;
+      c.style.animationDelay=Math.random()*0.5+'s';
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),4500);
     }
   }
 
-  function createConfetti() {
-    const colors = ['#00ff00', '#00ffff', '#ff00ff', '#ffff00', '#ff0000'];
-    for (let i = 0; i < 50; i++) {
-      const confetti = document.createElement('div');
-      confetti.className = 'confetti';
-      confetti.style.left = Math.random() * window.innerWidth + 'px';
-      confetti.style.top = '-20px';
-      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      confetti.style.animation = `confettiFall ${2 + Math.random() * 2}s linear forwards`;
-      confetti.style.animationDelay = Math.random() * 0.5 + 's';
-      
-      document.body.appendChild(confetti);
-      setTimeout(() => confetti.remove(), 4500);
-    }
-  }
-
-  // Trigger surprise blasts at key moments
-  setTimeout(() => {
-    createFirework(window.innerWidth * 0.2, window.innerHeight * 0.3);
-  }, 3000);
-
-  setTimeout(() => {
-    createFirework(window.innerWidth * 0.8, window.innerHeight * 0.4);
-  }, 3500);
-
-  setTimeout(() => {
-    createConfetti();
-  }, 4000);
-
-  setTimeout(() => {
-    createFirework(window.innerWidth * 0.5, window.innerHeight * 0.2);
-  }, 4500);
-
-  setTimeout(() => {
-    createFirework(window.innerWidth * 0.3, window.innerHeight * 0.6);
-    createFirework(window.innerWidth * 0.7, window.innerHeight * 0.5);
-  }, 5000);
-
-  setTimeout(() => {
-    createConfetti();
-  }, 5500);
-
-  // Random fireworks every few seconds
-  setInterval(() => {
-    const x = Math.random() * window.innerWidth;
-    const y = Math.random() * window.innerHeight * 0.7;
-    createFirework(x, y);
-  }, 3000);
-});
-
-const logLines = document.querySelectorAll('.log-line');
-logLines.forEach((line, i) => {
-  line.style.animationDelay = `${1 + i}s`;
-});
+  setTimeout(()=>createFirework(window.innerWidth*0.2,window.innerHeight*0.3),3000);
+  setTimeout(()=>createFirework(window.innerWidth*0.8,window.innerHeight*0.4),3500);
+  setTimeout(()=>createConfetti(),4000);
+  setTimeout(()=>createFirework(window.innerWidth*0.5,window.innerHeight*0.2),4500);
+  setTimeout(()=>{createFirework(window.innerWidth*0.3,window.innerHeight*0.6);createFirework(window.innerWidth*0.7,window.innerHeight*0.5);},5000);
+  setTimeout(()=>createConfetti(),5500);
+  setInterval(()=>{createFirework(Math.random()*window.innerWidth,Math.random()*window.innerHeight*0.7);},3000);
+}
 </script>
 </body>
 </html>
