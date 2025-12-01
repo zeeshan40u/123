@@ -74,7 +74,7 @@ function updateTime() {
     }
 }
 
-// Load reels
+// Load reels with Instagram layout
 function loadReels() {
     const reelsContainer = document.getElementById('reelsContainer');
     if (!reelsContainer) return;
@@ -97,13 +97,14 @@ function loadReels() {
             
             <button class="volume-btn" onclick="toggleMute(${reel.id})">${isMuted ? '🔇' : '🔊'}</button>
             
-            <div class="video-controls">
-                <div class="reel-info">
-                    <div class="reel-user">
+            <div class="reel-bottom-overlay">
+                <!-- Left side: User info, caption, music -->
+                <div class="reel-left-info">
+                    <div class="reel-user-info">
                         <div class="user-avatar">${reel.userInitial}</div>
-                        <div class="user-info">
+                        <div class="user-details">
                             <h4>${reel.username}</h4>
-                            <p onclick="followUser('${reel.username}')">Follow</p>
+                            <button class="follow-btn" onclick="followUser('${reel.username}')">Follow</button>
                         </div>
                     </div>
                     <div class="reel-caption">${reel.caption}</div>
@@ -113,26 +114,34 @@ function loadReels() {
                     </div>
                 </div>
                 
-                <div class="control-buttons">
-                    <div>
-                        <button class="control-btn ${likedReels[reel.id] ? 'liked' : ''}" onclick="toggleLike(${reel.id})">
+                <!-- Right side: Action buttons -->
+                <div class="reel-right-actions">
+                    <div class="action-button">
+                        <button class="action-btn ${likedReels[reel.id] ? 'liked' : ''}" onclick="toggleLike(${reel.id})">
                             ${likedReels[reel.id] ? '❤️' : '🤍'}
                         </button>
-                        <div class="count" id="like-count-${reel.id}">${formatNumber(reel.likes)}</div>
+                        <div class="action-count" id="like-count-${reel.id}">${formatNumber(reel.likes)}</div>
                     </div>
                     
-                    <div>
-                        <button class="control-btn" onclick="openComments(${reel.id})">
+                    <div class="action-button">
+                        <button class="action-btn" onclick="openComments(${reel.id})">
                             💬
                         </button>
-                        <div class="count">${formatNumber(reel.comments)}</div>
+                        <div class="action-count">${formatNumber(reel.comments)}</div>
                     </div>
                     
-                    <div>
-                        <button class="control-btn" onclick="shareReel(${reel.id})">
+                    <div class="action-button">
+                        <button class="action-btn" onclick="shareReel(${reel.id})">
                             📤
                         </button>
-                        <div class="count">${formatNumber(reel.shares)}</div>
+                        <div class="action-count">${formatNumber(reel.shares)}</div>
+                    </div>
+                    
+                    <div class="action-button">
+                        <button class="action-btn" onclick="saveReel(${reel.id})">
+                            📥
+                        </button>
+                        <div class="action-count">Save</div>
                     </div>
                 </div>
             </div>
@@ -236,7 +245,7 @@ function toggleLike(reelId) {
     localStorage.setItem('likedReels', JSON.stringify(likedReels));
     
     // Update button state
-    const likeBtn = document.querySelector(`#reel-${reelId} .control-btn`);
+    const likeBtn = document.querySelector(`#reel-${reelId} .action-btn`);
     if (likeBtn) {
         if (likedReels[reelId]) {
             likeBtn.classList.add('liked');
@@ -311,6 +320,11 @@ function shareReel(reelId) {
         reel.shares += 1;
         alert(`Sharing reel by ${reel.username}`);
     }
+}
+
+// Save reel
+function saveReel(reelId) {
+    alert('Reel saved to your collection!');
 }
 
 // Follow user
