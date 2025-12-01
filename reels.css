@@ -133,68 +133,29 @@ body {
     background: #000;
 }
 
-/* Video Controls Overlay */
-.video-controls {
+/* Instagram-style Layout - User info at bottom left */
+.reel-bottom-overlay {
     position: absolute;
-    bottom: 80px;
+    bottom: 0;
     left: 0;
     right: 0;
-    padding: 10px;
+    padding: 15px;
+    padding-bottom: 80px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     z-index: 5;
-    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
 }
 
-.control-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
-}
-
-.control-btn {
-    background: rgba(0, 0, 0, 0.5);
-    border: none;
-    color: white;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.control-btn:active {
-    transform: scale(0.9);
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.control-btn.liked {
-    color: #E1306C;
-}
-
-.count {
-    color: white;
-    font-size: 12px;
-    font-weight: 500;
-    margin-top: 5px;
-    text-align: center;
-}
-
-/* Reel Info */
-.reel-info {
+/* Left side: User info, caption, music */
+.reel-left-info {
     flex: 1;
-    padding: 10px;
     color: white;
-    max-width: 70%;
+    max-width: 75%;
 }
 
-.reel-user {
+.reel-user-info {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -212,31 +173,98 @@ body {
     font-weight: 600;
     font-size: 16px;
     color: white;
+    border: 2px solid white;
 }
 
-.user-info h4 {
-    font-size: 14px;
-    margin-bottom: 2px;
+.user-details h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 3px;
 }
 
-.user-info p {
+.follow-btn {
+    background: #E1306C;
+    border: none;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
     font-size: 12px;
-    color: #ccc;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.follow-btn:active {
+    transform: scale(0.95);
+    opacity: 0.8;
 }
 
 .reel-caption {
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.4;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    font-weight: 400;
 }
 
 .reel-music {
     display: flex;
     align-items: center;
     gap: 8px;
+    font-size: 14px;
+    color: white;
+    font-weight: 500;
+}
+
+.reel-music span:first-child {
+    font-size: 16px;
+}
+
+/* Right side: Action buttons */
+.reel-right-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.action-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.action-btn {
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.action-btn:active {
+    transform: scale(0.9);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.action-btn.liked {
+    color: #E1306C;
+    border-color: #E1306C;
+}
+
+.action-count {
+    color: white;
     font-size: 13px;
-    color: #ccc;
+    font-weight: 600;
 }
 
 /* Play/Pause Button */
@@ -266,7 +294,7 @@ body {
     opacity: 1;
 }
 
-/* Music/Volume Button */
+/* Music/Volume Buttons */
 .music-btn {
     position: absolute;
     top: 20px;
@@ -309,7 +337,7 @@ body {
     justify-content: space-around;
     align-items: center;
     padding: 10px 20px;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.9);
     border-top: 1px solid #333;
     position: relative;
     z-index: 10;
