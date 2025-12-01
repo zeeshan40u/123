@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#000000">
+    <title>Instashan - Reels</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="reels.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="notch"></div>
+        <div class="screen">
+            <div class="status-bar">
+                <div class="left-icons">
+                    <span>◇</span>
+                    <span id="current-time">1:37</span>
+                </div>
+                <div class="center-text">Reels</div>
+                <div class="right-icons">
+                    <span>📶</span>
+                    <span>🔋</span>
+                </div>
+            </div>
+
+            <div class="app-page">
+                <!-- Reels Container -->
+                <div class="reels-container" id="reelsContainer">
+                    <!-- Reels will be loaded by JavaScript -->
+                </div>
+
+                <!-- Bottom Navigation -->
+                <div class="bottom-nav">
+                    <button class="nav-button profile-nav-button" onclick="openProfile()">
+                        <img src="https://projectsofkhan.github.io/pythontodoapp/profileimage.jpg" class="profile-nav-image" alt="Profile">
+                    </button>
+                    <button class="nav-button active">🎥</button>
+                    <button class="nav-button" onclick="openChats()">💬</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="home-bar"></div>
+    </div>
+
+    <!-- Comment Modal -->
+    <div id="commentModal" class="comment-modal" style="display: none;">
+        <div class="comment-modal-content">
+            <div class="comment-modal-header">
+                <h3>Comments</h3>
+                <button class="close-comments" onclick="closeComments()">×</button>
+            </div>
+            <div class="comments-list" id="commentsList">
+                <!-- Comments will be loaded here -->
+            </div>
+            <div class="add-comment">
+                <input type="text" id="commentInput" placeholder="Add a comment...">
+                <button onclick="postComment()">Post</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="reels.js"></script>
+</body>
+</html>
