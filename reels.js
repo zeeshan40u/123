@@ -724,7 +724,19 @@ function checkLoginStatus() {
         window.location.href = '../index.html';
     }
 }
+// Navigation functions
+function openProfile() {
+    window.location.href = '../profile/profile.html';
+}
 
+function openChats() {
+    window.location.href = '../chats/chats.html';
+}
+
+// Add back button functionality
+function goBack() {
+    window.location.href = '../index.html';
+}
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
     updateTime();
