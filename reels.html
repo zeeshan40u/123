@@ -2,11 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#000000">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instashan - Reels</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="reels.css">
@@ -24,46 +20,21 @@
         </div>
     </div>
 
-    <div class="phone-container" style="display: none;" id="mainApp">
-        <div class="notch"></div>
-        <div class="screen">
-            <div class="status-bar">
-                <div class="left-icons">
-                    <span>◇</span>
-                    <span id="current-time">1:37</span>
-                </div>
-                <div class="center-text">Instashan</div> <!-- Changed to "Instashan" -->
-                <div class="right-icons">
-                    <span>📶</span>
-                    <span>🔋</span>
-                </div>
-            </div>
-
-            <div class="app-page">
-                <!-- ADD THIS APP HEADER SECTION -->
-                <div class="app-header">
-                    <a href="../index.html" class="back-button">←</a>
-                    <div class="app-title">Reels</div>
-                    <div class="header-spacer"></div>
-                </div>
-
-                <!-- Reels Container -->
-                <div class="reels-container" id="reelsContainer">
-                    <!-- Reels will be loaded by JavaScript -->
-                </div>
-
-                <!-- Bottom Navigation -->
-                <div class="bottom-nav">
-                    <button class="nav-button profile-nav-button" onclick="openProfile()">
-                        <img src="https://projectsofkhan.github.io/pythontodoapp/profileimage.jpg" class="profile-nav-image" alt="Profile">
-                    </button>
-                    <button class="nav-button active">🎥</button>
-                    <button class="nav-button" onclick="openChats()">💬</button>
-                </div>
-            </div>
+    <!-- Main App Container -->
+    <div class="app-container" style="display: none;" id="mainApp">
+        <!-- Reels Container -->
+        <div class="reels-container" id="reelsContainer">
+            <!-- Reels will be loaded by JavaScript -->
         </div>
 
-        <div class="home-bar"></div>
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-button profile-nav-button" onclick="openProfile()">
+                <img src="https://projectsofkhan.github.io/pythontodoapp/profileimage.jpg" class="profile-nav-image" alt="Profile">
+            </button>
+            <button class="nav-button active">🎥</button>
+            <button class="nav-button" onclick="openChats()">💬</button>
+        </div>
     </div>
 
     <!-- Comment Modal -->
