@@ -1,8 +1,8 @@
-// Reels data - 10 videos
+// Reels data - 5 videos (reduced from 10)
 var reelsData = [
     {
         id: 1,
-        username: "adventure.seeker",
+        username: "The_Goodperson",
         userInitial: "A",
         caption: "Chasing sunsets and making memories ✨ #Travel #Adventure",
         music: "Original Sound - adventure.seeker",
@@ -54,64 +54,8 @@ var reelsData = [
         comments: 398,
         shares: 92,
         videoUrl: "reels/video5.mp4"
-    },
-    {
-        id: 6,
-        username: "comedy.king",
-        userInitial: "C",
-        caption: "When you try to be serious but life has other plans 😂 #Comedy #Funny",
-        music: "Comedy Theme - comedy.king",
-        likes: 21000,
-        comments: 890,
-        shares: 210,
-        videoUrl: "reels/video6.mp4"
-    },
-    {
-        id: 7,
-        username: "gaming.pro",
-        userInitial: "G",
-        caption: "Epic gaming moments that you shouldn't miss! 🎮 #Gaming #Epic",
-        music: "Game Soundtrack - gaming.pro",
-        likes: 18700,
-        comments: 654,
-        shares: 145,
-        videoUrl: "reels/video7.mp4"
-    },
-    {
-        id: 8,
-        username: "nature.lover",
-        userInitial: "N",
-        caption: "Peaceful moments in nature 🌿 Sometimes you just need to disconnect #Nature #Peace",
-        music: "Nature Sounds - nature.lover",
-        likes: 9500,
-        comments: 187,
-        shares: 42,
-        videoUrl: "reels/video8.mp4"
-    },
-    {
-        id: 9,
-        username: "dance.queen",
-        userInitial: "D",
-        caption: "New dance routine that's taking over TikTok! 💃 #Dance #Viral",
-        music: "Trending Beat - dance.queen",
-        likes: 24500,
-        comments: 1023,
-        shares: 310,
-        videoUrl: "reels/video9.mp4"
-    },
-    {
-        id: 10,
-        username: "fashion.icon",
-        userInitial: "F",
-        caption: "Style tips that will elevate your fashion game! 👗 #Fashion #Style",
-        music: "Fashion Show - fashion.icon",
-        likes: 13400,
-        comments: 456,
-        shares: 98,
-        videoUrl: "reels/video10.mp4"
     }
 ];
-
 // State management
 var currentReelIndex = 0;
 var likedReels = JSON.parse(localStorage.getItem('likedReels') || '{}');
