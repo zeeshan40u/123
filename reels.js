@@ -9,7 +9,7 @@ var reelsData = [
         likes: "125k",
         comments: "19k",
         shares: 923,
-        videoUrl: "video1.mp4"
+        videoUrl: "reels/video1.mp4"
     },
     {
         id: 2,
@@ -20,7 +20,7 @@ var reelsData = [
         likes: "18.4M",
         comments: "101k",
         shares: "3.8M",
-        videoUrl: "video2.mp4"
+        videoUrl: "reels/video2.mp4"
     },
     {
         id: 3,
@@ -31,7 +31,7 @@ var reelsData = [
         likes: 21,
         comments: 0,
         shares: 1,
-        videoUrl: "video3.mp4"
+        videoUrl: "reels/video3.mp4"
     },
     {
         id: 4,
@@ -42,7 +42,7 @@ var reelsData = [
         likes: 11,
         comments: 0,
         shares: 0,
-        videoUrl: "video4.mp4"
+        videoUrl: "reels/video4.mp4"
     },
     {
         id: 5,
@@ -53,7 +53,7 @@ var reelsData = [
         likes: 11200,
         comments: 398,
         shares: 92,
-        videoUrl: "video5.mp4"
+        videoUrl: "reels/video5.mp4"
     }
 ];
 
