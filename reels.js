@@ -9,7 +9,7 @@ var reelsData = [
         likes: "125k",
         comments: "19k",
         shares: 923,
-        videoUrl: "reels/video1.mp4"
+        videoUrl: "video1.mp4"
     },
     {
         id: 2,
@@ -20,7 +20,7 @@ var reelsData = [
         likes: "18.4M",
         comments: "101k",
         shares: "3.8M",
-        videoUrl: "reels/video2.mp4"
+        videoUrl: "video2.mp4"
     },
     {
         id: 3,
@@ -31,7 +31,7 @@ var reelsData = [
         likes: 21,
         comments: 0,
         shares: 1,
-        videoUrl: "reels/video3.mp4"
+        videoUrl: "video3.mp4"
     },
     {
         id: 4,
@@ -42,7 +42,7 @@ var reelsData = [
         likes: 11,
         comments: 0,
         shares: 0,
-        videoUrl: "reels/video4.mp4"
+        videoUrl: "video4.mp4"
     },
     {
         id: 5,
@@ -53,9 +53,10 @@ var reelsData = [
         likes: 11200,
         comments: 398,
         shares: 92,
-        videoUrl: "reels/video5.mp4"
+        videoUrl: "video5.mp4"
     }
 ];
+
 // State management
 var currentReelIndex = 0;
 var likedReels = JSON.parse(localStorage.getItem('likedReels') || '{}');
@@ -89,16 +90,15 @@ function enableSound() {
 function hideLoadingScreen() {
     var loadingScreen = document.getElementById('loadingScreen');
     var mainApp = document.getElementById('mainApp');
-    
+
     if (loadingScreen) {
         loadingScreen.style.opacity = '0';
         setTimeout(function() {
             loadingScreen.style.display = 'none';
             if (mainApp) {
                 mainApp.style.display = 'block';
-                setTimeout(function() {
-                    loadReels();
-                }, 100);
+                // Load reels immediately
+                loadReels();
             }
         }, 300);
     }
@@ -124,10 +124,10 @@ function loadReels() {
         var reelItem = document.createElement('div');
         reelItem.className = 'reel-item';
         reelItem.id = 'reel-' + reel.id;
-        
+
         // Check if user is followed
         var isFollowing = followedUsers[reel.username];
-        
+
         reelItem.innerHTML = '\
             <video class="reel-video" id="video-' + reel.id + '" playsinline webkit-playsinline preload="metadata" muted loop>\
                 <source src="' + reel.videoUrl + '" type="video/mp4">\
@@ -181,11 +181,14 @@ function loadReels() {
 
         reelsContainer.appendChild(reelItem);
 
-        // Setup video
+        // Setup video - DO NOT AUTO-PLAY HERE
         var video = document.getElementById('video-' + reel.id);
         if (video) {
-            // Set initial volume
+            // Set initial volume but DON'T play
             updateVideoVolume(video);
+            
+            // PRELOAD but don't play
+            video.preload = "auto";
             
             if (i === currentReelIndex) {
                 reelItem.style.transform = 'translateY(0)';
@@ -193,16 +196,14 @@ function loadReels() {
                 reelItem.style.display = 'block';
                 reelItem.classList.add('active');
                 
-                // Auto-play only the current video
-                setTimeout(function() {
-                    video.play().catch(function(e) {
-                        console.log('Auto-play prevented for video', reel.id);
-                    });
-                }, 500);
+                // Only load the current video, don't auto-play
+                video.load();
             } else {
                 reelItem.style.transform = 'translateY(0)';
                 reelItem.style.opacity = '0';
                 reelItem.style.display = 'none';
+                // Don't load other videos yet
+                video.preload = "none";
             }
             reelItem.style.transition = 'none';
         }
@@ -210,6 +211,32 @@ function loadReels() {
 
     setupScrolling();
     createPauseOverlay();
+    
+    // Auto-play only the current video after a short delay
+    setTimeout(function() {
+        playCurrentVideo();
+    }, 100);
+}
+
+// Play only the current video
+function playCurrentVideo() {
+    var currentReel = reelsData[currentReelIndex];
+    if (!currentReel) return;
+    
+    var video = document.getElementById('video-' + currentReel.id);
+    if (video) {
+        // Ensure it's muted if sound is disabled
+        updateVideoVolume(video);
+        
+        // Try to play with error handling
+        var playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(function(error) {
+                console.log('Auto-play prevented for video', currentReel.id);
+                // User interaction required - we'll play on first click
+            });
+        }
+    }
 }
 
 // Format numbers
@@ -223,16 +250,16 @@ function formatNumber(num) {
 function setupScrolling() {
     var reelsContainer = document.getElementById('reelsContainer');
     if (!reelsContainer) return;
-    
+
     var touchStartTime = 0;
     var isDragging = false;
     var dragDistance = 0;
-    
+
     // Reset wheel counter on idle
     function resetWheelCounter() {
         currentScrollCount = 0;
     }
-    
+
     // Handle touch for mobile
     reelsContainer.addEventListener('touchstart', function(e) {
         if (isAnimating) return;
@@ -241,30 +268,30 @@ function setupScrolling() {
         isDragging = true;
         dragDistance = 0;
     }, { passive: true });
-    
+
     reelsContainer.addEventListener('touchmove', function(e) {
         if (!isDragging || isAnimating) return;
-        
+
         var touchCurrentY = e.touches[0].clientY;
         dragDistance = touchStartY - touchCurrentY;
     }, { passive: true });
-    
+
     reelsContainer.addEventListener('touchend', function(e) {
         if (!isDragging || isAnimating) return;
-        
+
         var touchEndY = e.changedTouches[0].clientY;
         var diff = touchStartY - touchEndY;
         var timeDiff = Date.now() - touchStartTime;
         var velocity = Math.abs(diff) / timeDiff;
-        
+
         // Trigger on quick swipes OR significant drags
         if ((Math.abs(diff) > 80 && timeDiff < 300) || // Quick swipe
             (Math.abs(diff) > 150 && velocity > 0.2)) { // Slow but long drag
             isDragging = false;
-            
+
             // Determine direction
             var direction = diff > 0 ? 'down' : 'up';
-            
+
             // Animate and change video
             animateScrollTransition(direction);
         } else {
@@ -272,38 +299,38 @@ function setupScrolling() {
             isDragging = false;
         }
     }, { passive: true });
-    
+
     // Handle mouse wheel
     reelsContainer.addEventListener('wheel', function(e) {
         e.preventDefault();
-        
+
         if (isAnimating) return;
-        
+
         // Clear previous timeout
         if (wheelTimeout) clearTimeout(wheelTimeout);
-        
+
         // Increment counter
         currentScrollCount++;
-        
+
         // Set timeout to reset counter
         wheelTimeout = setTimeout(resetWheelCounter, 500);
-        
+
         // Check if threshold reached
         if (currentScrollCount >= scrollThreshold) {
             currentScrollCount = 0;
-            
+
             // Determine direction
             var direction = e.deltaY > 0 ? 'down' : 'up';
-            
+
             // Animate and change video
             animateScrollTransition(direction);
         }
     }, { passive: false });
-    
+
     // Add keyboard navigation
     document.addEventListener('keydown', function(e) {
         if (isAnimating) return;
-        
+
         if (e.key === 'ArrowUp') {
             e.preventDefault();
             animateScrollTransition('up');
@@ -321,13 +348,13 @@ function setupScrolling() {
 function animateScrollTransition(direction) {
     if (isAnimating) return;
     isAnimating = true;
-    
+
     var currentReel = document.getElementById('reel-' + reelsData[currentReelIndex].id);
     if (!currentReel) {
         isAnimating = false;
         return;
     }
-    
+
     // Calculate new index with proper looping
     var newIndex;
     if (direction === 'down') {
@@ -343,39 +370,43 @@ function animateScrollTransition(direction) {
             newIndex = reelsData.length - 1;
         }
     }
-    
+
     // Get next reel and video
     var nextReel = document.getElementById('reel-' + reelsData[newIndex].id);
     var currentVideo = document.getElementById('video-' + reelsData[currentReelIndex].id);
     var nextVideo = document.getElementById('video-' + reelsData[newIndex].id);
-    
+
     if (!nextReel) {
         isAnimating = false;
         return;
     }
-    
+
     // Add transition classes
     currentReel.classList.add('transitioning');
     nextReel.classList.add('transitioning');
-    
+
     // Pause current video
     if (currentVideo) {
         currentVideo.pause();
         currentVideo.muted = true;
     }
-    
+
     // Prepare next video
     if (nextVideo) {
         nextVideo.currentTime = 0;
-        nextVideo.volume = isSoundEnabled ? 1.0 : 0.0;
-        nextVideo.muted = !isSoundEnabled;
+        updateVideoVolume(nextVideo);
+        
+        // Load the video if it hasn't been loaded yet
+        if (nextVideo.readyState < 3) {
+            nextVideo.load();
+        }
     }
-    
+
     // Show next reel but position it off-screen
     nextReel.style.display = 'block';
     nextReel.style.zIndex = '5';
     nextReel.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease';
-    
+
     // Set initial positions
     if (direction === 'down') {
         nextReel.style.transform = 'translateY(100%)';
@@ -384,14 +415,14 @@ function animateScrollTransition(direction) {
         nextReel.style.transform = 'translateY(-100%)';
         currentReel.style.transform = 'translateY(0)';
     }
-    
+
     nextReel.style.opacity = '1';
     currentReel.style.opacity = '1';
     currentReel.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease';
-    
+
     // Force reflow to ensure styles are applied before animation
     nextReel.offsetHeight;
-    
+
     // Animate
     requestAnimationFrame(function() {
         if (direction === 'down') {
@@ -401,9 +432,9 @@ function animateScrollTransition(direction) {
             currentReel.style.transform = 'translateY(100%)';
             nextReel.style.transform = 'translateY(0)';
         }
-        
+
         currentReel.style.opacity = '0.5';
-        
+
         // After animation completes
         setTimeout(function() {
             // Hide current reel completely
@@ -414,7 +445,7 @@ function animateScrollTransition(direction) {
             currentReel.style.zIndex = '1';
             currentReel.classList.remove('transitioning');
             currentReel.classList.remove('active');
-            
+
             // Reset next reel styles
             nextReel.style.transform = 'translateY(0)';
             nextReel.style.opacity = '1';
@@ -422,7 +453,7 @@ function animateScrollTransition(direction) {
             nextReel.style.zIndex = '2';
             nextReel.classList.remove('transitioning');
             nextReel.classList.add('active');
-            
+
             // Hide all other reels
             for (var i = 0; i < reelsData.length; i++) {
                 if (i !== newIndex) {
@@ -434,17 +465,17 @@ function animateScrollTransition(direction) {
                     }
                 }
             }
-            
+
             // Update current index
             currentReelIndex = newIndex;
-            
+
             // Play next video
             if (nextVideo) {
                 nextVideo.play().catch(function(e) {
                     console.log('Play prevented for video', reelsData[currentReelIndex].id);
                 });
             }
-            
+
             // Reset animation flag
             setTimeout(function() {
                 isAnimating = false;
@@ -457,7 +488,7 @@ function animateScrollTransition(direction) {
 function togglePlayPause() {
     var currentVideo = document.getElementById('video-' + reelsData[currentReelIndex].id);
     var pauseOverlay = document.querySelector('.pause-overlay');
-    
+
     if (currentVideo) {
         if (currentVideo.paused) {
             currentVideo.play();
@@ -468,7 +499,7 @@ function togglePlayPause() {
             currentVideo.pause();
             if (pauseOverlay) {
                 pauseOverlay.classList.add('show');
-                
+
                 // Auto hide pause overlay after 1.5 seconds
                 setTimeout(function() {
                     if (pauseOverlay) {
@@ -479,243 +510,3 @@ function togglePlayPause() {
         }
     }
 }
-
-// Create pause overlay element
-function createPauseOverlay() {
-    var overlay = document.createElement('div');
-    overlay.className = 'pause-overlay';
-    overlay.innerHTML = '<div class="pause-icon">⏸️</div>';
-    
-    var videoControls = document.createElement('div');
-    videoControls.className = 'video-controls';
-    videoControls.appendChild(overlay);
-    
-    var screen = document.querySelector('.screen');
-    if (screen) {
-        var existingControls = screen.querySelector('.video-controls');
-        if (existingControls) {
-            screen.removeChild(existingControls);
-        }
-        screen.appendChild(videoControls);
-    }
-    
-    // Add click to toggle play/pause
-    screen.addEventListener('click', function(e) {
-        // Don't trigger if clicking on interactive elements
-        if (e.target.closest('.action-btn') || 
-            e.target.closest('.follow-btn') ||
-            e.target.closest('.reel-bottom-overlay') ||
-            e.target.closest('.bottom-nav')) {
-            return;
-        }
-        
-        togglePlayPause();
-    });
-}
-
-// Toggle like
-function toggleLike(reelId) {
-    likedReels[reelId] = !likedReels[reelId];
-    
-    var reel = null;
-    for (var i = 0; i < reelsData.length; i++) {
-        if (reelsData[i].id === reelId) {
-            reel = reelsData[i];
-            break;
-        }
-    }
-    
-    var likeCount = document.getElementById('like-count-' + reelId);
-    
-    if (likedReels[reelId]) {
-        reel.likes += 1;
-    } else {
-        reel.likes -= 1;
-    }
-    
-    if (likeCount) {
-        likeCount.textContent = formatNumber(reel.likes);
-    }
-    
-    localStorage.setItem('likedReels', JSON.stringify(likedReels));
-    
-    // Update button state
-    var likeBtn = document.querySelector('#reel-' + reelId + ' .action-btn');
-    if (likeBtn) {
-        if (likedReels[reelId]) {
-            likeBtn.classList.add('liked');
-            likeBtn.innerHTML = '❤️';
-        } else {
-            likeBtn.classList.remove('liked');
-            likeBtn.innerHTML = '🤍';
-        }
-    }
-}
-
-// Toggle follow
-function toggleFollow(username, reelId) {
-    followedUsers[username] = !followedUsers[username];
-    
-    // Save to localStorage
-    localStorage.setItem('followedUsers', JSON.stringify(followedUsers));
-    
-    // Update button state
-    var followBtn = document.querySelector('#reel-' + reelId + ' .follow-btn');
-    if (followBtn) {
-        if (followedUsers[username]) {
-            followBtn.textContent = 'Following';
-            followBtn.classList.add('following');
-        } else {
-            followBtn.textContent = 'Follow';
-            followBtn.classList.remove('following');
-        }
-    }
-}
-
-// Open comments
-function openComments(reelId) {
-    var modal = document.getElementById('commentModal');
-    var commentsList = document.getElementById('commentsList');
-    
-    if (modal && commentsList) {
-        commentsList.innerHTML = '\
-            <div class="comment-item">\
-                <div class="comment-avatar">A</div>\
-                <div class="comment-content">\
-                    <div class="comment-author">user1</div>\
-                    <div class="comment-text">This is amazing! 🔥</div>\
-                </div>\
-            </div>\
-            <div class="comment-item">\
-                <div class="comment-avatar">B</div>\
-                <div class="comment-content">\
-                    <div class="comment-author">user2</div>\
-                    <div class="comment-text">Love this content! ❤️</div>\
-                </div>\
-            </div>\
-        ';
-        
-        modal.style.display = 'block';
-    }
-}
-
-// Close comments
-function closeComments() {
-    var modal = document.getElementById('commentModal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
-}
-
-// Post comment
-function postComment() {
-    var commentInput = document.getElementById('commentInput');
-    var commentsList = document.getElementById('commentsList');
-    
-    if (commentInput && commentInput.value.trim() && commentsList) {
-        var commentItem = document.createElement('div');
-        commentItem.className = 'comment-item';
-        commentItem.innerHTML = '\
-            <div class="comment-avatar">Y</div>\
-            <div class="comment-content">\
-                <div class="comment-author">you</div>\
-                <div class="comment-text">' + commentInput.value + '</div>\
-            </div>\
-        ';
-        
-        commentsList.appendChild(commentItem);
-        commentInput.value = '';
-    }
-}
-
-// Share reel
-function shareReel(reelId) {
-    var reel = null;
-    for (var i = 0; i < reelsData.length; i++) {
-        if (reelsData[i].id === reelId) {
-            reel = reelsData[i];
-            break;
-        }
-    }
-    
-    if (reel) {
-        reel.shares += 1;
-        
-        if (navigator.share) {
-            navigator.share({
-                title: 'Reel by ' + reel.username,
-                text: reel.caption,
-                url: window.location.href,
-            });
-        } else {
-            alert('Sharing reel by ' + reel.username);
-        }
-    }
-}
-
-// Navigation functions
-function openProfile() {
-    window.location.href = 'https://projectsofkhan.github.io/Trail/apps/instashan/profile/profile.html';
-}
-
-function openChats() {
-    window.location.href = 'https://projectsofkhan.github.io/Trail/apps/instashan/chats/chats.html';
-}
-
-// Check login status
-function checkLoginStatus() {
-    if (localStorage.getItem('instashan_logged_in') !== 'true') {
-        window.location.href = '../index.html';
-    }
-}
-// Navigation functions
-function openProfile() {
-    window.location.href = '../profile/profile.html';
-}
-
-function openChats() {
-    window.location.href = '../chats/chats.html';
-}
-
-// Add back button functionality
-function goBack() {
-    window.location.href = '../index.html';
-}
-// Initialize
-document.addEventListener('DOMContentLoaded', function() {
-    updateTime();
-    setInterval(updateTime, 60000);
-    checkLoginStatus();
-    
-    // Check if sound was previously enabled
-    if (isSoundEnabled) {
-        // Hide loading screen immediately if sound is already enabled
-        setTimeout(hideLoadingScreen, 1000);
-    } else {
-        // Show loading screen with sound button
-        var loadingScreen = document.getElementById('loadingScreen');
-        if (loadingScreen) {
-            loadingScreen.style.display = 'flex';
-        }
-    }
-    
-    // Handle comment input
-    var commentInput = document.getElementById('commentInput');
-    if (commentInput) {
-        commentInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                postComment();
-            }
-        });
-    }
-    
-    // Close modal when clicking outside
-    var modal = document.getElementById('commentModal');
-    if (modal) {
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closeComments();
-            }
-        });
-    }
-});
