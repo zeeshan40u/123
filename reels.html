@@ -12,7 +12,19 @@
     <link rel="stylesheet" href="reels.css">
 </head>
 <body>
-    <div class="phone-container">
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>Loading Reels</h2>
+            <p>Get ready for the best content!</p>
+            <button class="sound-toggle-btn" onclick="enableSound()">
+                🔇 Tap to Enable Sound
+            </button>
+        </div>
+    </div>
+
+    <div class="phone-container" style="display: none;" id="mainApp">
         <div class="notch"></div>
         <div class="screen">
             <div class="status-bar">
