@@ -510,3 +510,236 @@ function togglePlayPause() {
         }
     }
 }
+// Create pause overlay element
+function createPauseOverlay() {
+    var overlay = document.createElement('div');
+    overlay.className = 'pause-overlay';
+    overlay.innerHTML = '<div class="pause-icon">⏸️</div>';
+
+    var videoControls = document.createElement('div');
+    videoControls.className = 'video-controls';
+    videoControls.appendChild(overlay);
+
+    var appContainer = document.getElementById('mainApp');
+    if (appContainer) {
+        var existingControls = appContainer.querySelector('.video-controls');
+        if (existingControls) {
+            appContainer.removeChild(existingControls);
+        }
+        appContainer.appendChild(videoControls);
+    }
+
+    // Add click to toggle play/pause
+    if (appContainer) {
+        appContainer.addEventListener('click', function(e) {
+            // Don't trigger if clicking on interactive elements
+            if (e.target.closest('.action-btn') || 
+                e.target.closest('.follow-btn') ||
+                e.target.closest('.reel-bottom-overlay') ||
+                e.target.closest('.bottom-nav')) {
+                return;
+            }
+
+            togglePlayPause();
+        });
+    }
+}
+
+// Toggle like
+function toggleLike(reelId) {
+    likedReels[reelId] = !likedReels[reelId];
+
+    var reel = null;
+    for (var i = 0; i < reelsData.length; i++) {
+        if (reelsData[i].id === reelId) {
+            reel = reelsData[i];
+            break;
+        }
+    }
+
+    var likeCount = document.getElementById('like-count-' + reelId);
+
+    if (likedReels[reelId]) {
+        reel.likes += 1;
+    } else {
+        reel.likes -= 1;
+    }
+
+    if (likeCount) {
+        likeCount.textContent = formatNumber(reel.likes);
+    }
+
+    localStorage.setItem('likedReels', JSON.stringify(likedReels));
+
+    // Update button state
+    var likeBtn = document.querySelector('#reel-' + reelId + ' .action-btn');
+    if (likeBtn) {
+        if (likedReels[reelId]) {
+            likeBtn.classList.add('liked');
+            likeBtn.innerHTML = '❤️';
+        } else {
+            likeBtn.classList.remove('liked');
+            likeBtn.innerHTML = '🤍';
+        }
+    }
+}
+
+// Toggle follow
+function toggleFollow(username, reelId) {
+    followedUsers[username] = !followedUsers[username];
+
+    // Save to localStorage
+    localStorage.setItem('followedUsers', JSON.stringify(followedUsers));
+
+    // Update button state
+    var followBtn = document.querySelector('#reel-' + reelId + ' .follow-btn');
+    if (followBtn) {
+        if (followedUsers[username]) {
+            followBtn.textContent = 'Following';
+            followBtn.classList.add('following');
+        } else {
+            followBtn.textContent = 'Follow';
+            followBtn.classList.remove('following');
+        }
+    }
+}
+
+// Open comments
+function openComments(reelId) {
+    var modal = document.getElementById('commentModal');
+    var commentsList = document.getElementById('commentsList');
+
+    if (modal && commentsList) {
+        commentsList.innerHTML = '\
+            <div class="comment-item">\
+                <div class="comment-avatar">A</div>\
+                <div class="comment-content">\
+                    <div class="comment-author">user1</div>\
+                    <div class="comment-text">This is amazing! 🔥</div>\
+                </div>\
+            </div>\
+            <div class="comment-item">\
+                <div class="comment-avatar">B</div>\
+                <div class="comment-content">\
+                    <div class="comment-author">user2</div>\
+                    <div class="comment-text">Love this content! ❤️</div>\
+                </div>\
+            </div>\
+        ';
+
+        modal.style.display = 'block';
+    }
+}
+
+// Close comments
+function closeComments() {
+    var modal = document.getElementById('commentModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Post comment
+function postComment() {
+    var commentInput = document.getElementById('commentInput');
+    var commentsList = document.getElementById('commentsList');
+
+    if (commentInput && commentInput.value.trim() && commentsList) {
+        var commentItem = document.createElement('div');
+        commentItem.className = 'comment-item';
+        commentItem.innerHTML = '\
+            <div class="comment-avatar">Y</div>\
+            <div class="comment-content">\
+                <div class="comment-author">you</div>\
+                <div class="comment-text">' + commentInput.value + '</div>\
+            </div>\
+        ';
+
+        commentsList.appendChild(commentItem);
+        commentInput.value = '';
+    }
+}
+
+// Share reel
+function shareReel(reelId) {
+    var reel = null;
+    for (var i = 0; i < reelsData.length; i++) {
+        if (reelsData[i].id === reelId) {
+            reel = reelsData[i];
+            break;
+        }
+    }
+
+    if (reel) {
+        reel.shares += 1;
+
+        if (navigator.share) {
+            navigator.share({
+                title: 'Reel by ' + reel.username,
+                text: reel.caption,
+                url: window.location.href,
+            });
+        } else {
+            alert('Sharing reel by ' + reel.username);
+        }
+    }
+}
+
+// Navigation functions
+function openProfile() {
+    window.location.href = '../profile/profile.html';
+}
+
+function openChats() {
+    window.location.href = '../chats/chats.html';
+}
+
+function goBack() {
+    window.location.href = '../index.html';
+}
+
+// Check login status
+function checkLoginStatus() {
+    if (localStorage.getItem('instashan_logged_in') !== 'true') {
+        window.location.href = '../index.html';
+    }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    updateTime();
+    setInterval(updateTime, 60000);
+    checkLoginStatus();
+
+    // Check if sound was previously enabled
+    if (isSoundEnabled) {
+        // Hide loading screen immediately if sound is already enabled
+        setTimeout(hideLoadingScreen, 1000);
+    } else {
+        // Show loading screen with sound button
+        var loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen) {
+            loadingScreen.style.display = 'flex';
+        }
+    }
+
+    // Handle comment input
+    var commentInput = document.getElementById('commentInput');
+    if (commentInput) {
+        commentInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                postComment();
+            }
+        });
+    }
+
+    // Close modal when clicking outside
+    var modal = document.getElementById('commentModal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeComments();
+            }
+        });
+    }
+});
