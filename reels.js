@@ -6,7 +6,7 @@ var reelsData = [
         userInitial: "🚗",
         caption: "The Demon! #black #bmw",
         music: "Original Sound - Carguy86",
-        likes: "125k",
+        likes: 125000000, // Changed from "125k" to 125000000
         comments: "19k",
         shares: 923,
         videoUrl: "reels/video1.mp4"
@@ -17,7 +17,7 @@ var reelsData = [
         userInitial: "N",
         caption: "😂🤌 #dance",
         music: "Original Audio - neafeas",
-        likes: "18.4M",
+        likes: 18400000, // Changed from "18.4M" to 18400000
         comments: "101k",
         shares: "3.8M",
         videoUrl: "reels/video2.mp4"
